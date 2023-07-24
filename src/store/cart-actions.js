@@ -25,7 +25,7 @@ export const fetchCartData = () => {
       dispatch(
         cartActions.replaceCart({
           items: cartData.items || [],
-          totalQuantity: cartData.totalQuantity,
+          totalQuantity: cartData.totalQuantity || 0,
         })
       );
       dispatch(
@@ -62,7 +62,10 @@ export const sendCartData = (cart) => {
         `${process.env.REACT_APP_FIREBASE_URL}/cart.json`,
         {
           method: "PUT",
-          body: JSON.stringify(cart),
+          body: JSON.stringify({
+            items: cart.items,
+            totalQuantity: cart.totalQuantity,
+          }),
         }
       );
       if (!response.ok) {
